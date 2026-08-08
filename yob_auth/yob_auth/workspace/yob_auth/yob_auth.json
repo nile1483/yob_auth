@@ -1,0 +1,135 @@
+{
+ "app": "yob_auth",
+ "charts": [],
+ "content": "[{\"id\": \"ya-hdr-shortcuts\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"ya-sc-0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"YOB Application\", \"col\": 3}}, {\"id\": \"ya-sc-1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Application Access\", \"col\": 3}}, {\"id\": \"ya-sc-2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Auth Log\", \"col\": 3}}, {\"id\": \"ya-sc-3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Auth Settings\", \"col\": 3}}, {\"id\": \"ya-hdr-cards\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Access Control</b></span>\", \"col\": 12}}, {\"id\": \"ya-card-access\", \"type\": \"card\", \"data\": {\"card_name\": \"Applications & Access\", \"col\": 4}}, {\"id\": \"ya-card-identity\", \"type\": \"card\", \"data\": {\"card_name\": \"Identities\", \"col\": 4}}, {\"id\": \"ya-card-monitoring\", \"type\": \"card\", \"data\": {\"card_name\": \"Monitoring\", \"col\": 4}}]",
+ "creation": "2026-08-06 10:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "hide_custom": 0,
+ "icon": "shield",
+ "idx": 0,
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "label": "YOB Auth",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Applications & Access",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "YOB Application",
+   "link_count": 0,
+   "link_to": "YOB Application",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "YOB User Application Access",
+   "link_count": 0,
+   "link_to": "YOB User Application Access",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Identities",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "YOB Login Identity",
+   "link_count": 0,
+   "link_to": "YOB Login Identity",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Monitoring",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "YOB Auth Log",
+   "link_count": 0,
+   "link_to": "YOB Auth Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "YOB Auth Settings",
+   "link_count": 0,
+   "link_to": "YOB Auth Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-08-06 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "YOB Auth",
+ "name": "YOB Auth",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "doc_view": "List",
+   "label": "YOB Application",
+   "link_to": "YOB Application",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Application Access",
+   "link_to": "YOB User Application Access",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Auth Log",
+   "link_to": "YOB Auth Log",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "",
+   "label": "Auth Settings",
+   "link_to": "YOB Auth Settings",
+   "type": "DocType"
+  }
+ ],
+ "title": "YOB Auth",
+ "type": "Workspace"
+}

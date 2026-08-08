@@ -1,0 +1,1 @@
+recursive-include yob_auth *.json *.py *.js *.css *.html *.md

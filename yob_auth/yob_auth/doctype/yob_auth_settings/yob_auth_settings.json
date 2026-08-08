@@ -1,0 +1,127 @@
+{
+  "doctype": "DocType",
+  "name": "YOB Auth Settings",
+  "module": "YOB Auth",
+  "issingle": 1,
+  "editable_grid": 0,
+  "field_order": [
+    "password_login_enabled",
+    "password_rate_window_seconds",
+    "max_password_attempts_per_window",
+    "max_password_attempts_per_ip_window",
+    "email_otp_enabled",
+    "mobile_otp_enabled",
+    "otp_length",
+    "otp_expiry_seconds",
+    "otp_resend_seconds",
+    "max_otp_attempts",
+    "max_otp_requests_per_hour",
+    "default_country_code",
+    "sms_sender_method",
+    "allow_test_otp_in_developer_mode"
+  ],
+  "fields": [
+    {
+      "fieldname": "password_login_enabled",
+      "fieldtype": "Check",
+      "label": "Password Login Enabled",
+      "default": "1"
+    },
+    {
+      "fieldname": "password_rate_window_seconds",
+      "fieldtype": "Int",
+      "label": "Password Rate Window (Seconds)",
+      "default": "300",
+      "reqd": 1
+    },
+    {
+      "fieldname": "max_password_attempts_per_window",
+      "fieldtype": "Int",
+      "label": "Max Password Attempts per User/Window",
+      "default": "10",
+      "reqd": 1
+    },
+    {
+      "fieldname": "max_password_attempts_per_ip_window",
+      "fieldtype": "Int",
+      "label": "Max Password Attempts per IP/Window",
+      "default": "50",
+      "reqd": 1
+    },
+    {
+      "fieldname": "email_otp_enabled",
+      "fieldtype": "Check",
+      "label": "Email OTP Enabled",
+      "default": "1"
+    },
+    {
+      "fieldname": "mobile_otp_enabled",
+      "fieldtype": "Check",
+      "label": "Mobile OTP Enabled",
+      "default": "0"
+    },
+    {
+      "fieldname": "otp_length",
+      "fieldtype": "Int",
+      "label": "OTP Length",
+      "default": "6",
+      "reqd": 1
+    },
+    {
+      "fieldname": "otp_expiry_seconds",
+      "fieldtype": "Int",
+      "label": "OTP Expiry (Seconds)",
+      "default": "300",
+      "reqd": 1
+    },
+    {
+      "fieldname": "otp_resend_seconds",
+      "fieldtype": "Int",
+      "label": "OTP Resend Cooldown (Seconds)",
+      "default": "60",
+      "reqd": 1
+    },
+    {
+      "fieldname": "max_otp_attempts",
+      "fieldtype": "Int",
+      "label": "Maximum OTP Attempts",
+      "default": "5",
+      "reqd": 1
+    },
+    {
+      "fieldname": "max_otp_requests_per_hour",
+      "fieldtype": "Int",
+      "label": "Maximum OTP Requests Per Hour",
+      "default": "8",
+      "reqd": 1
+    },
+    {
+      "fieldname": "default_country_code",
+      "fieldtype": "Data",
+      "label": "Default Country Code",
+      "default": "91",
+      "description": "Dialling code applied to a mobile number entered without one, digits only (e.g. 91). Numbers given in full international form are never rewritten."
+    },
+    {
+      "fieldname": "sms_sender_method",
+      "fieldtype": "Data",
+      "label": "SMS Sender Python Method",
+      "description": "Dotted method path. Signature: send(mobile_no, message, reference=None)"
+    },
+    {
+      "fieldname": "allow_test_otp_in_developer_mode",
+      "fieldtype": "Check",
+      "label": "Return OTP in Developer Mode",
+      "default": "0"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+ "doctype": "DocType",
+ "name": "YOB Auth Log",
+ "module": "YOB Auth",
+ "autoname": "hash",
+ "track_changes": 0,
+ "field_order": [
+  "event",
+  "status",
+  "user",
+  "application",
+  "method",
+  "identifier_masked",
+  "ip_address",
+  "user_agent",
+  "reference",
+  "details"
+ ],
+ "fields": [
+  {
+   "fieldname": "event",
+   "fieldtype": "Select",
+   "label": "Event",
+   "options": "OTP Requested\nOTP Verified\nLogin\nLogout\nAccess Denied",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Success\nFailed\nIgnored",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "application",
+   "fieldtype": "Link",
+   "label": "Application",
+   "options": "YOB Application"
+  },
+  {
+   "fieldname": "method",
+   "fieldtype": "Select",
+   "label": "Method",
+   "options": "password\nemail_otp\nmobile_otp\nsession"
+  },
+  {
+   "fieldname": "identifier_masked",
+   "fieldtype": "Data",
+   "label": "Identifier"
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address"
+  },
+  {
+   "fieldname": "user_agent",
+   "fieldtype": "Small Text",
+   "label": "User Agent"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "Reference"
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Small Text",
+   "label": "Details"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "delete": 1,
+   "report": 1
+  }
+ ],
+ "indexes": [
+  [
+   "creation"
+  ],
+  [
+   "user",
+   "creation"
+  ],
+  [
+   "application",
+   "creation"
+  ]
+ ]
+}

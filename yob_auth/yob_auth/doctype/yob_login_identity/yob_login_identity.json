@@ -1,0 +1,63 @@
+{
+ "doctype": "DocType",
+ "name": "YOB Login Identity",
+ "module": "YOB Auth",
+ "autoname": "hash",
+ "title_field": "normalized_value",
+ "search_fields": "user,normalized_value",
+ "field_order": [
+  "user",
+  "identity_type",
+  "normalized_value",
+  "verified",
+  "enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "index": 1
+  },
+  {
+   "fieldname": "identity_type",
+   "fieldtype": "Select",
+   "label": "Identity Type",
+   "options": "Email\nMobile",
+   "reqd": 1,
+   "index": 1
+  },
+  {
+   "fieldname": "normalized_value",
+   "fieldtype": "Data",
+   "label": "Normalized Value",
+   "reqd": 1,
+   "unique": 1,
+   "index": 1
+  },
+  {
+   "fieldname": "verified",
+   "fieldtype": "Check",
+   "label": "Verified",
+   "default": "0"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  }
+ ]
+}

@@ -1,0 +1,91 @@
+{
+ "doctype": "DocType",
+ "name": "YOB User Application Access",
+ "module": "YOB Auth",
+ "autoname": "hash",
+ "title_field": "user",
+ "search_fields": "user,application,profile_name,company",
+ "field_order": [
+  "user",
+  "application",
+  "enabled",
+  "valid_from",
+  "valid_until",
+  "profile_doctype",
+  "profile_name",
+  "company"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "application",
+   "fieldtype": "Link",
+   "label": "Application",
+   "options": "YOB Application",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Datetime",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Datetime",
+   "label": "Valid Until"
+  },
+  {
+   "fieldname": "profile_doctype",
+   "fieldtype": "Link",
+   "label": "Profile DocType",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "profile_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Profile",
+   "options": "profile_doctype"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  }
+ ],
+ "indexes": [
+  [
+   "user",
+   "application"
+  ],
+  [
+   "application",
+   "enabled"
+  ]
+ ]
+}

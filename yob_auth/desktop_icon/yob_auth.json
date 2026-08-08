@@ -1,0 +1,23 @@
+{
+ "app": "yob_auth",
+ "bg_color": "blue",
+ "creation": "2026-08-06 10:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Desktop Icon",
+ "hidden": 0,
+ "icon": "shield",
+ "icon_type": "App",
+ "idx": 0,
+ "label": "YOB Auth",
+ "link_to": "YOB Auth",
+ "link_type": "Workspace Sidebar",
+ "logo_url": "/assets/yob_auth/images/logo.svg",
+ "modified": "2026-08-06 10:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "YOB Auth",
+ "owner": "Administrator",
+ "restrict_removal": 0,
+ "roles": [],
+ "sidebar": "YOB Auth",
+ "standard": 1
+}
