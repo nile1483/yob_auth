@@ -1,4 +1,5 @@
 import frappe
+from yob_core.api.boundary import yob_api
 from frappe.sessions import get_csrf_token
 from frappe.utils import cint
 
@@ -22,7 +23,7 @@ from yob_auth.security.exceptions import (
 from yob_auth.security.otp import request_otp as create_otp, verify_otp as consume_otp
 from yob_auth.security.rate_limit import enforce_password_attempt_limits
 from yob_auth.security.session import create_frappe_session
-from yob_core.api.errors import RATE_LIMIT_EXCEEDED
+from yob_core.api.errors import RATE_LIMIT_EXCEEDED, VALIDATION_FAILED
 from yob_core.api.http import (
     HTTP_FORBIDDEN,
     HTTP_TOO_MANY_REQUESTS,
@@ -30,6 +31,26 @@ from yob_core.api.http import (
     HTTP_UNPROCESSABLE,
 )
 from yob_core.api.response import error_response, success_response
+
+
+def _missing_field(**fields):
+    """Return a 422 envelope for the first blank field, else None.
+
+    Whitelisted parameters carry defaults so that omitting one answers as a
+    client error. Without this, Frappe's argument binding raises TypeError
+    before the endpoint body runs -- outside the envelope, and outside the
+    rate limiter -- returning a traceback and this function's signature.
+    """
+
+    for name, value in fields.items():
+        if not value:
+            return error_response(
+                VALIDATION_FAILED,
+                f"{name.replace('_', ' ').capitalize()} is required.",
+                field=name,
+                status_code=HTTP_UNPROCESSABLE,
+            )
+    return None
 
 
 def _settings():
@@ -70,8 +91,16 @@ def _auth_payload(context, authentication_method):
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"] )
+@yob_api
 @envelope_yob_errors
-def login_with_password(application: str, username: str, password: str):
+def login_with_password(
+    application: str | None = None,
+    username: str | None = None,
+    password: str | None = None,
+):
+    if missing := _missing_field(application=application, username=username, password=password):
+        return missing
+
     settings = _settings()
     if not cint(settings.password_login_enabled):
         return error_response(
@@ -122,8 +151,16 @@ def login_with_password(application: str, username: str, password: str):
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"] )
+@yob_api
 @envelope_yob_errors
-def request_otp(application: str, identifier: str, method: str):
+def request_otp(
+    application: str | None = None,
+    identifier: str | None = None,
+    method: str | None = None,
+):
+    if missing := _missing_field(application=application, identifier=identifier, method=method):
+        return missing
+
     app = get_application(application)
     validate_login_method(app, method)
     try:
@@ -139,8 +176,12 @@ def request_otp(application: str, identifier: str, method: str):
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"] )
+@yob_api
 @envelope_yob_errors
-def login_with_otp(challenge_id: str, otp: str):
+def login_with_otp(challenge_id: str | None = None, otp: str | None = None):
+    if missing := _missing_field(challenge_id=challenge_id, otp=otp):
+        return missing
+
     try:
         user, application, method = consume_otp(challenge_id, otp)
     except YOBRateLimitError as exc:
@@ -156,13 +197,18 @@ def login_with_otp(challenge_id: str, otp: str):
 
 
 @frappe.whitelist(methods=["GET"] )
+@yob_api
 @envelope_yob_errors
-def get_session_context(application: str):
+def get_session_context(application: str | None = None):
+    if missing := _missing_field(application=application):
+        return missing
+
     context = resolve_access(frappe.session.user, application)
     return success_response(_auth_payload(context, "session"))
 
 
 @frappe.whitelist(methods=["POST"] )
+@yob_api
 @envelope_yob_errors
 def logout():
     user = frappe.session.user

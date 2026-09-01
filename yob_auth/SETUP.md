@@ -45,8 +45,13 @@ application. Without it every request returns 403.
 
 ### 1b. Web server headers
 
-Two vhosts, in `nginx/conf.d/`. Both are edited once and then serve development
-and production alike.
+Two vhosts, in `/etc/nginx/conf.d/`. Both are edited once and then serve
+development and production alike.
+
+On the recorded local WSL2 bench there is no reverse proxy in front of Frappe by
+default — `bench start` serves directly on port 8000. Until these vhosts exist
+and direct access to port 8000 is blocked, `X-YOB-Original-Host` and
+`X-YOB-Client-IP` are caller-supplied strings and are not security authority.
 
 **Storefront vhost** (`myfirststorefront.com.conf`), inside `location ^~ /api/`:
 
@@ -83,7 +88,7 @@ bypassed with a single request header.
 Apply:
 
 ```bash
-docker exec nginx-proxy-frappe nginx -t && docker exec nginx-proxy-frappe nginx -s reload
+sudo nginx -t && sudo nginx -s reload
 ```
 
 ### 1c. Tell Frappe which header carries the client IP
@@ -120,25 +125,28 @@ curl -sk -o /dev/null -w '%{http_code}\n' \
 Session cookies must **not** be HTTPS-only, or a plain-`http://` dev server will
 silently discard them and logins will appear to succeed without persisting.
 
-### 2a. Switch cookies to permissive
+### 2a. Cookies are already permissive on the local bench
 
-In `.env`:
+There is nothing to switch. Frappe derives the `Secure` flag from the request
+scheme rather than from a setting — `apps/frappe/frappe/auth.py`:
 
-```bash
-FRAPPE_HTTPS_ONLY=
+```python
+if not secure and hasattr(frappe.local, "request"):
+    secure = frappe.local.request.scheme == "https"
 ```
 
-In your compose file, the `backend` service needs this line under `environment:`
-(add it once; the `.env` value is what you change):
-
-```yaml
-      USE_PROXY: ${FRAPPE_HTTPS_ONLY:-}
-```
-
-Restart the backend:
+`bench start` serves plain `http://` on port 8000, so `sid` is issued without
+`Secure` and a dev login persists:
 
 ```bash
-docker compose -f <compose-file> -p <project> up -d backend
+bench start
+```
+
+If you put a TLS proxy in front of the dev bench, run it with `--proxy` so
+`X-Forwarded-Proto` is honoured; otherwise the scheme stays `http`:
+
+```bash
+bench serve --proxy
 ```
 
 ### 2b. Angular
@@ -181,17 +189,25 @@ one origin, so there is no CORS or cookie problem to solve.
 
 ## 3. Production mode
 
-### 3a. Switch cookies to HTTPS-only
+The production hosting model is **Unknown — confirm before implementation**
+(see `open-items.md`). WSL2 is the recorded local development environment, not a
+production target. The rule below holds for any hosting model.
 
-In `.env`:
+### 3a. Cookies become HTTPS-only on their own
+
+Serve the site over `https://` and the same scheme check issues `sid` with
+`Secure`. No flag sets this directly.
+
+When Frappe sits behind a TLS-terminating proxy, the proxy must send
+`X-Forwarded-Proto: https` **and** Frappe must trust it, or `request.scheme`
+stays `http` and `Secure` is never set:
 
 ```bash
-FRAPPE_HTTPS_ONLY=1
+bench setup production <user>   # gunicorn behind nginx; forwards the scheme
 ```
 
-```bash
-docker compose -f <compose-file> -p <project> up -d backend
-```
+Confirm the forwarded headers in the generated nginx config before relying on
+this.
 
 ### 3b. Verify
 
@@ -214,15 +230,14 @@ SPA and the API are the same origin by construction.
 
 ## 4. Switching between modes
 
-Only one value changes:
+There is no flag to flip — the scheme you serve over decides everything:
 
-| | `.env` | Angular |
-|---|---|---|
-| Development | `FRAPPE_HTTPS_ONLY=` | `ng serve` over http |
-| Production | `FRAPPE_HTTPS_ONLY=1` | built files served by nginx |
+| | How Frappe runs | Cookie `Secure` | Angular |
+|---|---|---|---|
+| Development | `bench start` on `http://…:8000` | not set | `ng serve` over http |
+| Production | served over `https://` behind nginx | set automatically | built files served by nginx |
 
-Restart the `backend` service after changing it. Everything in section 1 stays the
-same in both modes.
+Everything in section 1 stays the same in both modes.
 
 ---
 
