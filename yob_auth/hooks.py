@@ -18,7 +18,13 @@ add_to_apps_screen = [
         "name": "yob_auth",
         "logo": "/assets/yob_auth/images/logo.svg",
         "title": "YOB Auth",
-        "route": "/desk/yob_auth",
+        # `yob-auth`, not `yob_auth`: the desk keys its workspace map with
+        # `frappe.router.slug(name)` (frappe/public/js/frappe/desk.js), and slug()
+        # lowercases and turns SPACES INTO HYPHENS. The Workspace is "YOB Auth",
+        # so an underscored route matches no workspace and the app icon opens
+        # nothing. `/desk` itself is correct -- /app/* redirects there
+        # (frappe/hooks.py), and erpnext and hrms use /desk/... too.
+        "route": "/desk/yob-auth",
     }
 ]
 
